@@ -5,19 +5,18 @@ import (
 	"testing"
 )
 
-func Test_isAnagram(t *testing.T) {
+func Test_containsDuplicate(t *testing.T) {
 	t.Parallel()
 	params := []struct {
-		input1 string
-		input2 string
-		got    bool
+		input []int
+		got   bool
 	}{
-		{"anagram", "nagaram", true}, {"car", "rat", false}, {"aa", "a", false}, {"aac", "acc", false},
+		{[]int{1, 2, 3, 1}, true}, {[]int{1, 1, 1, 3, 3, 4, 3, 2, 4, 2}, true}, {[]int{1, 2, 3, 4}, false},
 	}
 
 	for _, p := range params {
 		t.Run(fmt.Sprintf("Testing [%v]", p), func(t *testing.T) {
-			actual := isAnagram(p.input1, p.input2)
+			actual := containsDuplicate(p.input)
 			if actual != p.got {
 				t.Logf("want %v but got %v", p.got, actual)
 				t.Fail()
