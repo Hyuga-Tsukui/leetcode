@@ -1,9 +1,5 @@
 package solution
 
-import (
-	"maps"
-)
-
 func isAnagram(s string, t string) bool {
 	if len(s) != len(t) {
 		return false
@@ -14,5 +10,11 @@ func isAnagram(s string, t string) bool {
 		a[s[i]]++
 		b[t[i]]++
 	}
-	return maps.Equal(a, b)
+
+	for k, v := range a {
+		if b[k] != v {
+			return false
+		}
+	}
+	return true
 }
