@@ -1,16 +1,15 @@
 package solution
 
 func twoSum(nums []int, target int) []int {
-	if len(nums) == 0 {
-		return []int{}
+	if len(nums) <= 2 {
+		return []int{0, 1}
 	}
-	for i, v1 := range nums {
-		for j, v2 := range nums[i+1:] {
-			if target-(v1+v2) == 0 {
-				return []int{i, j + i + 1}
-			}
-			continue
+	m := map[int]int{}
+	for i, n := range nums {
+		if v, ok := m[target-n]; ok {
+			return []int{v, i}
 		}
+		m[n] = i
 	}
 	return []int{}
 }
