@@ -1,31 +1,26 @@
 package solution
 
-import (
-	"slices"
-	"strings"
-)
-
 func groupAnagrams(strs []string) [][]string {
 	if len(strs) < 2 {
 		return [][]string{strs}
 	}
-	gropus := map[string][]string{}
+	groups := map[[26]int][]string{}
 
-	for _, v := range strs {
-		splited := strings.Split(v, "")
-		slices.Sort(splited)
-		joined := strings.Join(splited, "")
-		if s, ok := gropus[joined]; !ok {
-			gropus[joined] = []string{v}
+	for _, str := range strs {
+		alpha := [26]int{}
+		for _, r := range str {
+			alpha[r-'a']++
+		}
+		if group, ok := groups[alpha]; ok {
+			groups[alpha] = append(group, str)
 		} else {
-			gropus[joined] = append(s, v)
+			groups[alpha] = []string{str}
 		}
 	}
 
-	result := [][]string{}
-
-	for _, v := range gropus {
-		result = append(result, v)
+	result := make([][]string, 0, len(groups))
+	for _, group := range groups {
+		result = append(result, group)
 	}
 	return result
 }
