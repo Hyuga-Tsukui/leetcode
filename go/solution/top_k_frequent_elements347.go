@@ -1,34 +1,20 @@
 package solution
 
-import (
-	"slices"
-)
-
-type Pair struct {
-	Key   int
-	Value int
-}
-
 func topKFrequent(nums []int, k int) []int {
 	frequency := map[int]int{}
 
 	for _, v := range nums {
 		frequency[v]++
 	}
-
-	pl := []Pair{}
-
+	bucket := make([][]int, len(nums)+1)
 	for k, v := range frequency {
-		pl = append(pl, Pair{k, v})
+		bucket[v] = append(bucket[v], k)
 	}
-
-	slices.SortFunc(pl, func(a, b Pair) int {
-		return b.Value - a.Value
-	})
-
-	rank := make([]int, k)
-	for i := range k {
-		rank[i] = pl[i].Key
+	rank := []int{}
+	for i := len(bucket) - 1; i > 0 && len(rank) < k; i-- {
+		if len(bucket[i]) > 0 {
+			rank = append(rank, bucket[i]...)
+		}
 	}
 	return rank
 }
