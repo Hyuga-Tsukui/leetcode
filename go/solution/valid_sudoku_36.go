@@ -14,20 +14,19 @@ func isValidSudoku(board [][]byte) bool {
 
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
+			if board[i][j] == '.' {
+				continue
+			}
 
-			IsCurRowNumBlank := board[i][j] != '.'
-			IsCurColNumBlank := board[j][i] != '.'
+			v := board[i][j]
 			boxIdx := byte((i/3)*3 + j/3)
-			if (IsCurRowNumBlank && row[i][board[i][j]] > 0) || (IsCurColNumBlank && col[i][board[j][i]] > 0) || (IsCurRowNumBlank && box[boxIdx][board[i][j]] > 0) {
+			if (row[i][v] > 0) || col[j][v] > 0 || box[boxIdx][v] > 0 {
 				return false
 			}
 
-			// 行の数字の出現Mapを作成
-			row[i][board[i][j]]++
-
-			// 列の数字の出現Mapを作成
-			col[i][board[j][i]]++
-			box[boxIdx][board[i][j]]++
+			row[i][v]++
+			col[j][v]++
+			box[boxIdx][v]++
 		}
 	}
 	return true
